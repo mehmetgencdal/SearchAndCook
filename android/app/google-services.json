@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "836923218129",
+    "firebase_url": "https://search-and-cook-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "search-and-cook",
+    "storage_bucket": "search-and-cook.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836923218129:android:36ce8971666a2a4e7c8df0",
+        "android_client_info": {
+          "package_name": "com.sembasoftware.searchandcook.search_and_cook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836923218129-bghkfqc4ssj6bcqjg9m4pasd6udi6om2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKBdpLimbAO7-cRAbXTL4kTwLYasNTAww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "836923218129-bghkfqc4ssj6bcqjg9m4pasd6udi6om2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
