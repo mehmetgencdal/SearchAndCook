@@ -33,9 +33,31 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Container(
-              //Search bar
+          Padding(
+            //Search bar
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(15.0),
               ),
+              height: deviceHeight / 20,
+              child: const Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: TextField(
+                  style: TextStyle(color: Colors.black, fontSize: 18.0),
+                  decoration: InputDecoration(
+                      focusedBorder: InputBorder.none,
+                      icon: Icon(
+                        Icons.search,
+                        color: Colors.black,
+                        size: 30.0,
+                      ),
+                      hintText: "Search Ingredient"),
+                ),
+              ),
+            ),
+          ),
           const SelectedMaterialsArea(),
           const SizedBox(
             height: 10,
@@ -54,31 +76,5 @@ class BackendService {
     return List.generate(3, (index) {
       return {'name': query + index.toString(), 'price': 100};
     });
-  }
-}
-
-class CitiesService {
-  static final List<String> cities = [
-    'Beirut',
-    'Damascus',
-    'San Fransisco',
-    'Rome',
-    'Los Angeles',
-    'Madrid',
-    'Bali',
-    'Barcelona',
-    'Paris',
-    'Bucharest',
-    'New York City',
-    'Philadelphia',
-    'Sydney',
-  ];
-
-  static List<String> getSuggestions(String query) {
-    List<String> matches = [];
-    matches.addAll(cities);
-
-    matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
-    return matches;
   }
 }
