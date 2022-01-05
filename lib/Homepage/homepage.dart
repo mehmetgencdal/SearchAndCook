@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:search_and_cook/Homepage/database.dart';
 
 import 'RecommendedDishesAreaWidget.dart';
 import 'SelectedMaterialsAreaWidget.dart';
@@ -33,31 +34,35 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Padding(
-            //Search bar
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              height: deviceHeight / 20,
-              child: const Padding(
-                padding: EdgeInsets.only(left: 8.0),
-                child: TextField(
-                  style: TextStyle(color: Colors.black, fontSize: 18.0),
-                  decoration: InputDecoration(
-                      focusedBorder: InputBorder.none,
-                      icon: Icon(
-                        Icons.search,
-                        color: Colors.black,
-                        size: 30.0,
+          FutureBuilder(
+              future: query(),
+              initialData: "Loading text..",
+              builder: (BuildContext context, AsyncSnapshot<String> text) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    height: deviceHeight / 20,
+                    child: const Padding(
+                      padding: EdgeInsets.only(left: 8.0),
+                      child: TextField(
+                        style: TextStyle(color: Colors.black, fontSize: 18.0),
+                        decoration: InputDecoration(
+                            focusedBorder: InputBorder.none,
+                            icon: Icon(
+                              Icons.search,
+                              color: Colors.black,
+                              size: 30.0,
+                            ),
+                            hintText: "Search Ingredient"),
                       ),
-                      hintText: "Search Ingredient"),
-                ),
-              ),
-            ),
-          ),
+                    ),
+                  ),
+                );
+              }),
           const SelectedMaterialsArea(),
           const SizedBox(
             height: 10,
@@ -69,12 +74,10 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class BackendService {
-  static Future<List> getSuggestions(String query) async {
-    await Future.delayed(const Duration(seconds: 1));
+Future<String> getFileData(String path) async {
+  return await Future(() => "test text");
+}
 
-    return List.generate(3, (index) {
-      return {'name': query + index.toString(), 'price': 100};
-    });
-  }
+Future<String> getTextFromFile() async {
+  return getFileData("test.txt");
 }
