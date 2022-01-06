@@ -24,5 +24,6 @@ query() async {
 
   // get all rows
   List<Map> result = await db.query("ingredients");
+
   return result;
 }
