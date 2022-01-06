@@ -63,11 +63,11 @@ class _HomePageState extends State<HomePage> {
                       decoration:
                           const InputDecoration(border: OutlineInputBorder())),
                   suggestionsCallback: (pattern) async {
-                    return values; //
+                    return await values; //
                   },
                   itemBuilder: (context, suggestion) {
                     return const ListTile(
-                      leading: Icon(Icons.shopping_cart), //Mazleme ikonu
+                      leading: Icon(Icons.shopping_cart), //Malzeme ikonu
                       title: Text("Malzeme adı"),
                     );
                   },
