@@ -73,10 +73,10 @@ class _HomePageState extends State<HomePage> {
                       List ing = [];
                       var i = values?.length;
                       var j = 0;
-                      /*while (j < i!) {
+                      while (j < i!) {
                         ing.add(values![j]["ingName"]);
                         j++;
-                      }*/
+                      }
 
                       return ing; //
                     },
