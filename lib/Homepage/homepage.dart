@@ -45,42 +45,37 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          FutureBuilder(
-              future: query(),
-              initialData: "Loading text..",
-              builder: (BuildContext context, AsyncSnapshot<String> text) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    height: deviceHeight / 20,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: TypeAheadField(
-                        textFieldConfiguration: TextFieldConfiguration(
-                            style: DefaultTextStyle.of(context)
-                                .style
-                                .copyWith(fontStyle: FontStyle.italic),
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder())),
-                        suggestionsCallback: (pattern) async {
-                          return values; //
-                        },
-                        itemBuilder: (context, suggestion) {
-                          return const ListTile(
-                            leading: Icon(Icons.shopping_cart), //Mazleme ikonu
-                            title: Text("Malzeme adı"),
-                          );
-                        },
-                        onSuggestionSelected: (suggestion) {},
-                      ),
-                    ),
-                  ),
-                );
-              }),
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              height: deviceHeight / 20,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: TypeAheadField(
+                  textFieldConfiguration: TextFieldConfiguration(
+                      style: DefaultTextStyle.of(context)
+                          .style
+                          .copyWith(fontStyle: FontStyle.italic),
+                      decoration:
+                          const InputDecoration(border: OutlineInputBorder())),
+                  suggestionsCallback: (pattern) async {
+                    return values; //
+                  },
+                  itemBuilder: (context, suggestion) {
+                    return const ListTile(
+                      leading: Icon(Icons.shopping_cart), //Mazleme ikonu
+                      title: Text("Malzeme adı"),
+                    );
+                  },
+                  onSuggestionSelected: (suggestion) {},
+                ),
+              ),
+            ),
+          ),
           const SelectedMaterialsArea(),
           const SizedBox(
             height: 10,
