@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:search_and_cook/Homepage/database.dart';
 
 import 'RecommendedDishesAreaWidget.dart';
@@ -12,6 +13,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Map<dynamic, dynamic>>? values;
+
+  void getValues() async => values = await query();
+
+  @override
+  void initState() {
+    getValues();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -46,18 +57,25 @@ class _HomePageState extends State<HomePage> {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     height: deviceHeight / 20,
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: TextField(
-                        style: TextStyle(color: Colors.black, fontSize: 18.0),
-                        decoration: InputDecoration(
-                            focusedBorder: InputBorder.none,
-                            icon: Icon(
-                              Icons.search,
-                              color: Colors.black,
-                              size: 30.0,
-                            ),
-                            hintText: "Search Ingredient"),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: TypeAheadField(
+                        textFieldConfiguration: TextFieldConfiguration(
+                            style: DefaultTextStyle.of(context)
+                                .style
+                                .copyWith(fontStyle: FontStyle.italic),
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder())),
+                        suggestionsCallback: (pattern) async {
+                          return values; //
+                        },
+                        itemBuilder: (context, suggestion) {
+                          return const ListTile(
+                            leading: Icon(Icons.shopping_cart), //Mazleme ikonu
+                            title: Text("Malzeme adı"),
+                          );
+                        },
+                        onSuggestionSelected: (suggestion) {},
                       ),
                     ),
                   ),
