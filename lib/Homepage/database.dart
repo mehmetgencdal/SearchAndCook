@@ -33,16 +33,16 @@ query2() async {
   Database db = await database();
 
   // get all rows
-  List<Map> result = await db.query("ingredients");
-  List ingName = [];
+  List<Map> result = await db.query("dishes");
+  var dishInf = {};
   var i = result.length;
   var j = 0;
   while (j < i) {
-    ingName.add(result[j]["ingName"]);
+    dishInf[result[j]["dishName"]] = result[j]["dishIng"];
     j++;
   }
 
-  return ingName;
+  return dishInf;
 }
 
 query3() async {
