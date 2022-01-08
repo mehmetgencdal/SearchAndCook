@@ -13,14 +13,14 @@ Future<Database> database() async {
   final directory = await getDatabasesPath();
   String dbPath = join(directory, "database.db");
   await File(dbPath).writeAsBytes(bytes);
-
   var db = await openDatabase(dbPath);
   return db;
 }
 
+var _database = database();
 query() async {
   // get a reference to the database
-  Database db = await database();
+  Database db = await _database;
 
   // get all rows
   List<Map> result = await db.query("ingredients");
@@ -30,7 +30,7 @@ query() async {
 
 query2() async {
   // get a reference to the database
-  Database db = await database();
+  Database db = await _database;
 
   // get all rows
   List<Map> result = await db.query("dishes");
@@ -47,7 +47,7 @@ query2() async {
 
 query3() async {
   // get a reference to the database
-  Database db = await database();
+  Database db = await _database;
 
   // get all rows
   List<Map> result = await db.query("ingredients");
@@ -60,4 +60,38 @@ query3() async {
   }
 
   return ingInf;
+}
+
+query4() async {
+  // get a reference to the database
+  Database db = await _database;
+
+  // get all rows
+  List<Map> result = await db.query("dishes");
+  var dishInf = {};
+  var i = result.length;
+  var j = 0;
+  while (j < i) {
+    dishInf[result[j]["dishName"]] = result[j]["dishPicture"];
+    j++;
+  }
+
+  return dishInf;
+}
+
+query5() async {
+  // get a reference to the database
+  Database db = await _database;
+
+  // get all rows
+  List<Map> result = await db.query("dishes");
+  var dishInf = {};
+  var i = result.length;
+  var j = 0;
+  while (j < i) {
+    dishInf[result[j]["dishName"]] = result[j]["recipe"];
+    j++;
+  }
+
+  return dishInf;
 }

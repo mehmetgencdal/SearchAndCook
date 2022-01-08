@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:search_and_cook/Homepage/database.dart';
-
-import 'RecommendedDishesAreaWidget.dart';
+import 'package:search_and_cook/RecipePage/recipe_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,11 +16,15 @@ class _HomePageState extends State<HomePage> {
   List<String> selected = [];
   Map<dynamic, dynamic>? dishes;
   List dishNames = [];
+  Map<dynamic, dynamic>? dishPictures;
+  Map<dynamic, dynamic>? recipes;
 
   void getValues() async {
     values = await query();
     icons = await query3();
     dishes = await query2();
+    dishPictures = await query4();
+    recipes = await query5();
     dishNames = (dishes?.keys.toList())!;
   }
 
@@ -64,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                   border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.circular(30.0),
                 ),
-                height: deviceHeight / 23,
+                height: deviceHeight / 18,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: TypeAheadField(
@@ -99,25 +102,20 @@ class _HomePageState extends State<HomePage> {
                             icons![suggestion.toString()],
                             width: 30.0,
                             height: 30.0,
-                          ), //Malzeme ikonu
+                          ),
                           title: Text(suggestion.toString()),
                         );
                       },
                       onSuggestionSelected: (suggestion) {
                         selected.add(suggestion.toString());
                         selected = selected.toSet().toList();
-                        var counter = 0;
-                        var secondCounter = selected.length - 1;
-
-                        while (counter < dishNames.length) {
-                          if (dishes![dishNames[counter]]
-                                  .toString()
-                                  .contains(selected[secondCounter]) !=
+                        var counter = selected.length - 1;
+                        dishes?.forEach((key, value) {
+                          if (value.toString().contains(selected[counter]) !=
                               true) {
-                            dishNames.remove(dishNames[counter]);
+                            dishNames.remove(key.toString());
                           }
-                          counter++;
-                        }
+                        });
                       }),
                 ),
               ),
@@ -141,32 +139,33 @@ class _HomePageState extends State<HomePage> {
               elevation: 10.0,
               // Selected Materials area
               child: Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  width: MediaQuery.of(context).size.width - 30.0,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: ListView.builder(
-                    padding: const EdgeInsets.only(top: 5.0),
-                    itemCount: selected.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            top: 5.0, left: 15.0, right: 15.0, bottom: 10.0),
-                        child: Stack(children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height / 16,
-                            decoration: BoxDecoration(
-                              color: Colors.orange[100],
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
+                height: MediaQuery.of(context).size.height / 3,
+                width: MediaQuery.of(context).size.width - 30.0,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: selected.isNotEmpty
+                    ? ListView.builder(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        itemCount: selected.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                top: 5.0,
+                                left: 15.0,
+                                right: 15.0,
+                                bottom: 10.0),
+                            child: Stack(children: [
+                              Container(
+                                height: MediaQuery.of(context).size.height / 16,
+                                decoration: BoxDecoration(
+                                  color: Colors.orange[100],
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Row(children: [
                                     SizedBox(
                                       width:
                                           MediaQuery.of(context).size.height /
@@ -178,19 +177,23 @@ class _HomePageState extends State<HomePage> {
                                         icons![selected[index]],
                                       ),
                                     ),
-                                    Text(
-                                      selected[index],
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              50),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 10.0),
+                                      child: Text(
+                                        selected[index],
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                50),
+                                      ),
                                     ),
+                                    /*
                                     IconButton(
                                       onPressed: () {
                                         setState(() {
-                                          print(dishNames);
                                           selected.remove(selected[index]);
                                         });
                                       },
@@ -198,20 +201,194 @@ class _HomePageState extends State<HomePage> {
                                         Icons.cancel,
                                         color: Colors.red,
                                       ),
-                                    ),
+                                    ),*/
                                   ]),
-                            ),
-                          )
-                        ]),
-                      );
-                    },
-                  )),
+                                ),
+                              )
+                            ]),
+                          );
+                        })
+                    : Stack(children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height / 16,
+                          decoration: BoxDecoration(
+                            color: Colors.white38,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.height / 20,
+                                height: MediaQuery.of(context).size.width / 10,
+                                child: const Icon(Icons.add),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Text(
+                                  "Please add ingredient",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize:
+                                          MediaQuery.of(context).size.height /
+                                              50),
+                                ),
+                              ),
+                              /*
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          selected.remove(selected[index]);
+                                        });
+                                      },
+                                      icon: const Icon(
+                                        Icons.cancel,
+                                        color: Colors.red,
+                                      ),
+                                    ),*/
+                            ]),
+                          ),
+                        )
+                      ]),
+              ),
             ),
           ]),
           const SizedBox(
             height: 10,
           ),
-          const RecommendedDishesArea(),
+          Column(children: [
+            Align(
+              // Text widget recommended dishes
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0, top: 10.0),
+                child: Text(
+                  "Recommended Dishes",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height / 40),
+                ),
+              ),
+            ),
+            Material(
+              borderRadius: BorderRadius.circular(10.0),
+              elevation: 10.0,
+              child: Container(
+                //Recommended Dishes area
+                height: MediaQuery.of(context).size.height / 3,
+                width: MediaQuery.of(context).size.width - 30.0,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: dishNames.isNotEmpty
+                    ? ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: dishNames.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return RawMaterialButton(
+                            onPressed: () {
+                              query();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RecipePage(
+                                      dishName: dishNames[index],
+                                      dishRecipe: recipes![dishNames[index]],
+                                      dishPicUrl:
+                                          dishPictures![dishNames[index]],
+                                    ),
+                                  ));
+                            },
+                            child: Stack(children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.orange[100],
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  width: 250.0,
+                                  child: Column(children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: NetworkImage(dishPictures![
+                                                  dishNames[index]]),
+                                              fit: BoxFit.cover),
+                                          color: Colors.greenAccent,
+                                          borderRadius:
+                                              BorderRadius.circular(20.0)),
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              4,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              70),
+                                      child: Text(
+                                        dishNames[index],
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                45),
+                                      ),
+                                    )
+                                  ]),
+                                ),
+                              ),
+                            ]),
+                          );
+                        })
+                    : Stack(children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height / 16,
+                          decoration: BoxDecoration(
+                            color: Colors.white38,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.height / 20,
+                                height: MediaQuery.of(context).size.width / 10,
+                                child: const Icon(Icons.restaurant),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Text(
+                                  "No matches found",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize:
+                                          MediaQuery.of(context).size.height /
+                                              50),
+                                ),
+                              ),
+                              /*
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          selected.remove(selected[index]);
+                                        });
+                                      },
+                                      icon: const Icon(
+                                        Icons.cancel,
+                                        color: Colors.red,
+                                      ),
+                                    ),*/
+                            ]),
+                          ),
+                        )
+                      ]),
+              ),
+            )
+          ]),
         ]),
       ),
     );
