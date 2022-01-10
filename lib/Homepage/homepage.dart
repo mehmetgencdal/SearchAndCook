@@ -165,44 +165,48 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(10.0),
-                                  child: Row(children: [
-                                    SizedBox(
-                                      width:
-                                          MediaQuery.of(context).size.height /
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
                                               20,
-                                      height:
-                                          MediaQuery.of(context).size.width /
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
                                               10,
-                                      child: Image.network(
-                                        icons![selected[index]],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 10.0),
-                                      child: Text(
-                                        selected[index],
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                50),
-                                      ),
-                                    ),
-                                    /*
-                                    IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          selected.remove(selected[index]);
-                                        });
-                                      },
-                                      icon: const Icon(
-                                        Icons.cancel,
-                                        color: Colors.red,
-                                      ),
-                                    ),*/
-                                  ]),
+                                          child: Image.network(
+                                            icons![selected[index]],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10.0),
+                                          child: Text(
+                                            selected[index],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    50),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              selected.remove(selected[index]);
+                                            });
+                                          },
+                                          icon: const Icon(
+                                            Icons.cancel,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ]),
                                 ),
                               )
                             ]),
