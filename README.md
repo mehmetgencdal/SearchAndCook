@@ -1,4 +1,4 @@
-# Search And Book
+# Search And Cook
 
 This app is for searching recipes.
 
