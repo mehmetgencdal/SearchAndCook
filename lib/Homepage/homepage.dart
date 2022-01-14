@@ -21,11 +21,28 @@ class _HomePageState extends State<HomePage> {
 
   void getValues() async {
     values = await query();
-    icons = await query3();
     dishes = await query2();
+    icons = await query3();
     dishPictures = await query4();
     recipes = await query5();
     dishNames = (dishes?.keys.toList())!;
+  }
+
+  List reccomender(map, list) {
+    List result = [];
+
+    map.forEach((key, value) {
+      list.forEach((element) {
+        if (value.toString().contains(element)) {
+          result.add(key.toString());
+        } else {
+          result.remove(key.toString());
+        }
+      });
+    });
+
+    result = result.toSet().toList();
+    return result;
   }
 
   @override
@@ -109,13 +126,7 @@ class _HomePageState extends State<HomePage> {
                       onSuggestionSelected: (suggestion) {
                         selected.add(suggestion.toString());
                         selected = selected.toSet().toList();
-                        var counter = selected.length - 1;
-                        dishes?.forEach((key, value) {
-                          if (value.toString().contains(selected[counter]) !=
-                              true) {
-                            dishNames.remove(key.toString());
-                          }
-                        });
+                        dishNames = reccomender(dishes, selected);
                       }),
                 ),
               ),
@@ -199,6 +210,10 @@ class _HomePageState extends State<HomePage> {
                                           onPressed: () {
                                             setState(() {
                                               selected.remove(selected[index]);
+                                              selected =
+                                                  selected.toSet().toList();
+                                              dishNames =
+                                                  reccomender(dishes, selected);
                                             });
                                           },
                                           icon: const Icon(
@@ -238,18 +253,6 @@ class _HomePageState extends State<HomePage> {
                                               50),
                                 ),
                               ),
-                              /*
-                                    IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          selected.remove(selected[index]);
-                                        });
-                                      },
-                                      icon: const Icon(
-                                        Icons.cancel,
-                                        color: Colors.red,
-                                      ),
-                                    ),*/
                             ]),
                           ),
                         )

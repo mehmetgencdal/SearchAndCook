@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:search_and_cook/Homepage/homepage.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  //await Injection.initInejction();
-  runApp(const MyApp());
+  runApp(const SearchAndCookApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class SearchAndCookApp extends StatelessWidget {
+  const SearchAndCookApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
