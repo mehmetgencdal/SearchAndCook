@@ -1,4 +1,4 @@
-# search_and_cook
+# Search And Cook
 
 This app is for searching recipes.
 
